@@ -2,18 +2,28 @@
 --  == Sammi's (Neovim!) config :3 ==
 -- =================================
 
--- quality of life improvements
+-- NOTE: If you change something, hit ":w", followed a shoutout ":so"
+
+--   ----------------------------------
+--  -- Quality of Life Improvements --
+-- ----------------------------------
+
+-- line numbers
 vim.opt.nu = true
 
+-- tabs -> spaces
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
+-- better indentation
 vim.opt.smartindent = true
 
+-- colors and fill column (if you want one)
 vim.opt.termguicolors = true
-vim.opt.colorcolumn = "80"
+-- vim.opt.colorcolumn = "100"
+
 
 -- pretty colors!
 require("gruvbox").setup()
@@ -23,14 +33,12 @@ vim.cmd('colorscheme gruvbox')
 
 -- modeline
 require('lualine').setup({
-  options = {
-	  theme = 'gruvbox'
-  }
+  options = {theme = 'gruvbox'}
 })
 
 
 --   --------------
---  -- Keymaps -- 
+--  -- Keymaps --
 -- -------------
 
 -- Set space bar as leader key
@@ -93,7 +101,11 @@ local ensure_packer = function()
   local fn = vim.fn
   local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({
+        'git', 'clone', '--depth', '1',
+        'https://github.com/wbthomason/packer.nvim',
+        install_path
+    })
     vim.cmd('packadd packer.nvim')
     return true
   end
