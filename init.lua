@@ -25,6 +25,10 @@ vim.opt.termguicolors = true
 -- vim.opt.colorcolumn = "100"
 
 
+--   -------------------------------------------
+--  -- Plugin Initializing and Bootstrapping --
+-- -------------------------------------------
+
 -- Packer bootstrap
 local ensure_packer = function()
   local fn = vim.fn
@@ -45,8 +49,13 @@ local packer_bootstrap = ensure_packer()
 
 
 -- initialize plugins
-require('plugins')
+-- NOTE: add any new plugins to lua/my_plugins/init.lua
+require('my_plugins')
 
+
+--   ------------------------
+--  -- Theme and Modeline --
+-- ------------------------
 
 -- pretty colors!
 require("gruvbox").setup()
