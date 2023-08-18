@@ -4,25 +4,9 @@
 
 -- NOTE: If you change something, hit ":w", followed a shoutout ":so"
 
---   ----------------------------------
---  -- Quality of Life Improvements --
--- ----------------------------------
 
--- line numbers
-vim.opt.nu = true
-
--- tabs -> spaces
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-
--- better indentation
-vim.opt.smartindent = true
-
--- colors and fill column (if you want one)
-vim.opt.termguicolors = true
--- vim.opt.colorcolumn = "100"
+-- config vanilla neovim settings
+require("set_opts")
 
 
 --   -------------------------------------------
@@ -49,77 +33,11 @@ local packer_bootstrap = ensure_packer()
 
 
 -- initialize plugins
--- NOTE: add any new plugins to lua/my_plugins/init.lua
-require('my_plugins')
+-- NOTE: add any new plugins to lua/plugins.lua
+require('plugins')
 
 
---   ------------------------
---  -- Theme and Modeline --
--- ------------------------
-
--- pretty colors!
-require("gruvbox").setup()
-vim.o.background = "dark"
-vim.cmd('colorscheme gruvbox')
-
-
--- modeline
-require('lualine').setup({
-  options = {theme = 'gruvbox'}
-})
-
-
---   --------------
---  -- Keymaps --
--- -------------
-
--- Set space bar as leader key
-vim.g.mapleader = " "
-
--- Map :Ex to <SPC>pv (i.e. "project view")
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
-
-
---   ---------
---  -- LSP --
--- ---------
-
-local lsp = require('lsp-zero').preset({})
-
--- Fix undefined global 'vim'
-lsp.nvim_workspace()
-
--- Autocompletion bindings
-local cmp = require('cmp')
-local cmp_select = {behavior = cmp.SelectBehavior.Select}
-local cmp_mappings = lsp.defaults.cmp_mappings({
-  ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-  ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-  ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-  ["<C-Space>"] = cmp.mapping.complete(),
-})
-
-cmp_mappings['<Tab>'] = nil
-cmp_mappings['<S-Tab>'] = nil
-
-lsp.setup_nvim_cmp({
-  mapping = cmp_mappings
-})
-
-lsp.on_attach(function(client, bufnr)
-  local opts = {buffer = bufnr, remap = false}
-
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-  vim.keymap.set("n", "<leader>clws", function() vim.lsp.buf.workspace_symbol() end, opts)
-  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-  vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-  vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-  vim.keymap.set("n", "<leader>cla", function() vim.lsp.buf.code_action() end, opts)
-  vim.keymap.set("n", "<leader>clrr", function() vim.lsp.buf.references() end, opts)
-  vim.keymap.set("n", "<leader>clrn", function() vim.lsp.buf.rename() end, opts)
-  vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-end)
-
-lsp.setup()
-require('fidget').setup()
+-- configure anything that could rely on plugins
+require("theme")
+require("keybindings")
+require("lsp")
