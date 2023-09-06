@@ -6,15 +6,16 @@
 return require('packer').startup(function(use)
   use { "wbthomason/packer.nvim" }
 
+
   -- theme
   use { "ellisonleao/gruvbox.nvim" }
 
-  -- modeline
-  use {
-    'nvim-lualine/lualine.nvim',
-    requires = {'nvim-tree/nvim-web-devicons'}
-  }
 
+  -- modeline
+  use {'nvim-lualine/lualine.nvim', requires = {'nvim-tree/nvim-web-devicons'}}
+
+
+  -- :VSCode
   use {
       'VonHeikemen/lsp-zero.nvim',
       branch = 'v2.x',
@@ -30,8 +31,19 @@ return require('packer').startup(function(use)
           {'L3MON4D3/LuaSnip'},     -- Required
       }
   }
-
   use { 'j-hui/fidget.nvim', tag = 'legacy' }
+
+
+  -- scala
+  use {
+      'scalameta/nvim-metals',
+      requires = {
+          "nvim-lua/plenary.nvim",
+          "mfussenegger/nvim-dap"
+      }
+  }
+
+
   if packer_bootstrap then
     require('packer').sync()
   end
