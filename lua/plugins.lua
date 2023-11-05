@@ -15,6 +15,12 @@ return require('packer').startup(function(use)
   use {'nvim-lualine/lualine.nvim', requires = {'nvim-tree/nvim-web-devicons'}}
 
 
+  -- autopairs for parens & brackets
+  use {
+	"windwp/nvim-autopairs",
+    config = function() require("nvim-autopairs").setup {} end
+  }
+
   -- :VSCode
   use {
       'VonHeikemen/lsp-zero.nvim',
